@@ -8,35 +8,36 @@
  *
  */
 
+#include <QFrame>
 #include <QToolButton>
 #include "qribbonwidget/include/ribbonbuttongroup.h"
 #include "ui_ribbonbuttongroup.h"
 
 RibbonButtonGroup::RibbonButtonGroup(QWidget *parent)
   : QWidget(parent), 
-    ui(new Ui::RibbonButtonGroup), m_title("")
+    ui(new Ui::RibbonButtonGroup), m_title(tr(""))
 {
   ui->setupUi(this);
   ui->horiz_line->hide();
 }
 
-RibbonButtonGroup::~RibbonButtonGroup()
+RibbonButtonGroup::~RibbonButtonGroup() noexcept
 {
   delete ui;
 }
 
-void RibbonButtonGroup::setTitle(const QString &title)
+void RibbonButtonGroup::setTitle(const QString &title) noexcept
 {
   m_title = title;
   ui->label->setText(m_title);
 }
 
-QString RibbonButtonGroup::title() const
+QString RibbonButtonGroup::title() const noexcept
 {
   return m_title;
 }
 
-int RibbonButtonGroup::buttonCount() const
+int RibbonButtonGroup::buttonCount() const noexcept
 {
   return ui->horiz_layout->count();
 }
@@ -54,6 +55,15 @@ void RibbonButtonGroup::addButton(QToolButton *button)
 
 void RibbonButtonGroup::removeButton(QToolButton *button)
 {
-  /// \todo What happens if button is not part of the layout?
   ui->horiz_layout->removeWidget(button);
+}
+
+const QFrame* RibbonButtonGroup::separator() const noexcept
+{
+    return ui->vert_line;
+}
+
+QFrame* RibbonButtonGroup::separator() noexcept
+{
+    return ui->vert_line;
 }
