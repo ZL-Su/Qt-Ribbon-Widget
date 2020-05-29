@@ -13,8 +13,7 @@
 #include "ui_ribbontabcontent.h"
 
 RibbonTabContent::RibbonTabContent(QWidget* parent)
-    : QWidget(parent)
-    , ui(new Ui::RibbonTabContent)
+    : QWidget(parent), ui(new Ui::RibbonTabContent)
 {
     ui->setupUi(this);
 }
@@ -26,18 +25,18 @@ RibbonTabContent::~RibbonTabContent()
 
 void RibbonTabContent::addGroup(const QString& groupName)
 {
-    RibbonButtonGroup* ribbonButtonGroup = new RibbonButtonGroup;
-    ribbonButtonGroup->setTitle(groupName);
+    auto _Button_group = new RibbonButtonGroup;
+    _Button_group->setTitle(groupName);
 
-    ui->horiz_layout->addWidget(ribbonButtonGroup);
+    ui->horiz_layout->addWidget(_Button_group);
 }
 
 void RibbonTabContent::removeGroup(const QString& groupName)
 {
     // Find ribbon group
-    for (int i = 0; i < ui->horiz_layout->count(); i++)
+    for (auto i = 0; i < ui->horiz_layout->count(); ++i)
     {
-        auto* group = static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(i)->widget());
+        auto group = static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(i)->widget());
         if (group->title().toLower() == groupName.toLower())
         {
             ui->horiz_layout->removeWidget(group);
@@ -45,12 +44,9 @@ void RibbonTabContent::removeGroup(const QString& groupName)
             break;
         }
     }
-
-    /// \todo  What if the group still contains buttons? Delete manually?
-    // Or automaticly deleted by Qt parent() system.
 }
 
-int RibbonTabContent::groupCount() const
+int RibbonTabContent::groupCount() const noexcept
 {
     return ui->horiz_layout->count();
 }
@@ -58,30 +54,27 @@ int RibbonTabContent::groupCount() const
 void RibbonTabContent::addButton(const QString& groupName, QToolButton* button)
 {
     // Find ribbon group
-    RibbonButtonGroup* ribbonButtonGroup = nullptr;
-    for (int i = 0; i < ui->horiz_layout->count(); i++)
+    RibbonButtonGroup* _Button_group = nullptr;
+    for (auto i = 0; i < ui->horiz_layout->count(); ++i)
     {
-        auto* group = static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(i)->widget());
+        auto group = static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(i)->widget());
         if (group->title().toLower() == groupName.toLower())
         {
-            ribbonButtonGroup = group;
+            _Button_group = group;
             break;
         }
     }
 
-    if (ribbonButtonGroup != nullptr)
+    if (_Button_group != nullptr)
     {
-        // Group found
-        // Add ribbon button
-        ribbonButtonGroup->addButton(button);
+        // Group found, add ribbon button
+        _Button_group->addButton(button);
     }
     else
     {
-        // Group not found
-        // Add ribbon group
+        // Group not found, add ribbon group
         addGroup(groupName);
-
-        // Add ribbon button
+        // Then add ribbon button
         addButton(groupName, button);
     }
 }
@@ -89,28 +82,38 @@ void RibbonTabContent::addButton(const QString& groupName, QToolButton* button)
 void RibbonTabContent::removeButton(const QString& groupName, QToolButton* button)
 {
     // Find ribbon group
-    RibbonButtonGroup* ribbonButtonGroup = nullptr;
+    RibbonButtonGroup* _Button_group = nullptr;
     for (int i = 0; i < ui->horiz_layout->count(); i++)
     {
-        auto* group = static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(i)->widget());
+        auto group = static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(i)->widget());
         if (group->title().toLower() == groupName.toLower())
         {
-            ribbonButtonGroup = group;
+            _Button_group = group;
             break;
         }
     }
 
-    if (ribbonButtonGroup != nullptr)
+    if (_Button_group != nullptr)
     {
         // Group found
         // Remove ribbon button
-        ribbonButtonGroup->removeButton(button);
+        _Button_group->removeButton(button);
 
-        if (ribbonButtonGroup->buttonCount() == 0)
+        if (_Button_group->buttonCount() == 0)
         {
             // Empty button group
             // Remove button group
             removeGroup(groupName);
         }
     }
+}
+
+RibbonButtonGroup* RibbonTabContent::getGroup(int idx) noexcept
+{
+    return static_cast<RibbonButtonGroup*>(ui->horiz_layout->itemAt(idx)->widget());
+}
+
+RibbonButtonGroup* RibbonTabContent::lastGroup() noexcept
+{
+    return getGroup(groupCount() - 1);
 }
