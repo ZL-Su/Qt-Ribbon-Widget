@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/QRibbonWidget/v16
+/debug
+/release
+/x64
+/ui_ribbontabcontent.h
+/ui_ribbonbuttongroup.h
+/ui_mainwindow.h
+/Qt-Ribbon.vcxproj.user
+/Qt-Ribbon.vcxproj.filters
+/Qt-Ribbon.vcxproj
+/QRibbonWidget.sln
+/.qmake.stash
