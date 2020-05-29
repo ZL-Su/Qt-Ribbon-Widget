@@ -13,50 +13,55 @@
 
 #include <QWidget>
 #include <QToolButton>
-
-namespace Ui {
-class RibbonTabContent;
-}
+#include "forward.hpp"
 
 class RibbonTabContent : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit RibbonTabContent(QWidget *parent = 0);
-  virtual ~RibbonTabContent();
+    explicit RibbonTabContent(QWidget* parent = 0);
+    virtual ~RibbonTabContent();
 
-  /// Add a group to the tab content.
-  ///
-  /// \param[in] groupName Name of the group
-  void addGroup(const QString &groupName);
+    /// Add a group to the tab content.
+    ///
+    /// \param[in] groupName Name of the group
+    void addGroup(const QString& groupName);
 
-  /// Remove a group from the tab content.
-  ///
-  /// \param[in] groupName Name of the group
-  void removeGroup(const QString &groupName);
+    /// Remove a group from the tab content.
+    ///
+    /// \param[in] groupName Name of the group
+    void removeGroup(const QString& groupName);
 
-  /// Get the number of button groups in this tab content.
-  ///
-  /// \return The number of button groups
-  int groupCount() const;
+    /// Get the number of button groups in this tab content.
+    ///
+    /// \return The number of button groups
+    int groupCount() const noexcept;
 
-  /// Add a button to the specified group.
-  /// The group is created if it does not exist.
-  ///
-  /// \param[in] groupName Name of the group
-  /// \param[in] button The button
-  void addButton(const QString &groupName, QToolButton *button);
+    /// Add a button to the specified group.
+    /// The group is created if it does not exist.
+    ///
+    /// \param[in] groupName Name of the group
+    /// \param[in] button The button
+    void addButton(const QString& groupName, QToolButton* button);
 
-  /// Remove a button from the specified group.
-  /// The group is also removed if it's empty.
-  ///
-  /// \param[in] groupName Name of the group
-  /// \param[in] button The button
-  void removeButton(const QString &groupName, QToolButton *button);
+    /// Remove a button from the specified group.
+    /// The group is also removed if it's empty.
+    ///
+    /// \param[in] groupName Name of the group
+    /// \param[in] button The button
+    void removeButton(const QString& groupName, QToolButton* button);
 
+    /**
+     * \brief Get idx-th button group
+     */
+    RibbonButtonGroup* getGroup(int idx) noexcept;
+    /**
+     * \brief Get the last button group
+     */
+    RibbonButtonGroup* lastGroup() noexcept;
 private:
-  Ui::RibbonTabContent *ui;
+    Ui::RibbonTabContent* ui;
 };
 
 #endif // RIBBONTABCONTENT_H

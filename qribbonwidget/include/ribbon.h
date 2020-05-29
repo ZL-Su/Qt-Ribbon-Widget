@@ -13,8 +13,9 @@
 
 #include <QTabWidget>
 #include <QToolButton>
+#include "forward.hpp"
 
-class Ribbon : public QTabWidget
+class RibbonWidget : public QTabWidget
 {
     Q_OBJECT;
 #define DEFAULT_QTUI_FONT \
@@ -22,7 +23,7 @@ QString::fromUtf8("Segoe UI")
 
 public:
 
-    explicit Ribbon(QWidget* parent = 0);
+    explicit RibbonWidget(QWidget* parent = 0);
 
     /// Add a tab to the ribbon.
     ///
@@ -64,6 +65,8 @@ public:
     /// \param[in] groupName Name of the group
     /// \param[in] button The button
     void removeButton(const QString& tabName, const QString& groupName, QToolButton* button);
+
+    RibbonButtonGroup* lastGroup(const QString& tabName) noexcept;
 
     const QFont& font() const noexcept;
     QFont& font() noexcept;
