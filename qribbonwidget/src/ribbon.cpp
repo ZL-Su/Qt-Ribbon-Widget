@@ -14,7 +14,7 @@
 #include "qribbonwidget/include/ribbon.h"
 #include "qribbonwidget/include/ribbontabcontent.h"
 
-Ribbon::Ribbon(QWidget* parent)
+RibbonWidget::RibbonWidget(QWidget* parent)
     : QTabWidget(parent)
 {
     // Determine default colors
@@ -76,7 +76,7 @@ Ribbon::Ribbon(QWidget* parent)
     setPalette(pal);
 }
 
-void Ribbon::addTab(const QString& tabName, const QString& font)
+void RibbonWidget::addTab(const QString& tabName, const QString& font)
 {
     _Myfont.setFamily(font);
     this->setFont(_Myfont);
@@ -85,7 +85,7 @@ void Ribbon::addTab(const QString& tabName, const QString& font)
     QTabWidget::addTab(ribbonTabContent, tabName);
 }
 
-void Ribbon::addTab(const QIcon& tabIcon, const QString& tabName, const QString& font)
+void RibbonWidget::addTab(const QIcon& tabIcon, const QString& tabName, const QString& font)
 {
     _Myfont.setFamily(font);
     this->setFont(_Myfont);
@@ -94,7 +94,7 @@ void Ribbon::addTab(const QIcon& tabIcon, const QString& tabName, const QString&
     QTabWidget::addTab(ribbonTabContent, tabIcon, tabName);
 }
 
-void Ribbon::removeTab(const QString &tabName)
+void RibbonWidget::removeTab(const QString &tabName)
 {
   // Find ribbon tab
   for (int i = 0; i < count(); i++)
@@ -110,69 +110,67 @@ void Ribbon::removeTab(const QString &tabName)
   }
 }
 
-void Ribbon::addGroup(const QString &tabName, const QString &groupName)
+void RibbonWidget::addGroup(const QString& tabName, const QString& groupName)
 {
-  // Find ribbon tab
-  QWidget *tab = nullptr;
-  for (int i = 0; i < count(); i++)
-  {
-    if (tabText(i).toLower() == tabName.toLower())
+    // Find ribbon tab
+    QWidget* tab = nullptr;
+    for (auto i = 0; i < count(); ++i)
     {
-      tab = QTabWidget::widget(i);
-      break;
+        if (tabText(i).toLower() == tabName.toLower())
+        {
+            tab = QTabWidget::widget(i);
+            break;
+        }
     }
-  }
 
-  if (tab != nullptr)
-  {
-    // Tab found
-    // Add ribbon group
-      auto ribbonTabContent = static_cast<RibbonTabContent*>(tab);
-    ribbonTabContent->addGroup(groupName);
-  }
-  else
-  {
-    // Tab not found
-    // Create tab
-    addTab(tabName);
+    if (tab != nullptr)
+    {
+        // Tab found, add ribbon group
+        auto ribbonTabContent = static_cast<RibbonTabContent*>(tab);
+        return ribbonTabContent->addGroup(groupName);
+    }
+    else
+    {
+        // Tab not found, create tab
+        addTab(tabName);
 
-    // Add ribbon group
-    addGroup(tabName, groupName);
-  }
+        // Add ribbon group
+        return addGroup(tabName, groupName);
+    }
 }
 
-void Ribbon::addButton(const QString &tabName, const QString &groupName, QToolButton *button)
+void RibbonWidget::addButton(const QString& tabName, const QString& groupName, QToolButton* button)
 {
-  // Find ribbon tab
-  QWidget *tab = nullptr;
-  for (int i = 0; i < count(); i++)
-  {
-    if (tabText(i).toLower() == tabName.toLower())
+    // Find ribbon tab
+    QWidget* tab = nullptr;
+    for (int i = 0; i < count(); i++)
     {
-      tab = QTabWidget::widget(i);
-      break;
+        if (tabText(i).toLower() == tabName.toLower())
+        {
+            tab = QTabWidget::widget(i);
+            break;
+        }
     }
-  }
 
-  if (tab != nullptr)
-  {
-    // Tab found
-    // Add ribbon button
-      auto ribbonTabContent = static_cast<RibbonTabContent*>(tab);
-    ribbonTabContent->addButton(groupName, button);
-  }
-  else
-  {
-    // Tab not found.
-    // Create tab
-    addTab(tabName);
+    if (tab != nullptr)
+    {
+        // Tab found
+        // Add ribbon button
+        auto ribbonTabContent = static_cast<RibbonTabContent*>(tab);
+        ribbonTabContent->addButton(groupName, button);
+    }
+    else
+    {
+        // Tab not found.
+        // Create tab
+        addTab(tabName);
 
-    // Add ribbon button
-    addButton(tabName, groupName, button);
-  }
+        // Add ribbon button
+        addButton(tabName, groupName, button);
+    }
 }
 
-void Ribbon::removeButton(const QString &tabName, const QString &groupName, QToolButton *button)
+void RibbonWidget::removeButton(const QString &tabName, const QString &groupName, QToolButton *button)
 {
   // Find ribbon tab
   QWidget *tab = nullptr;
@@ -199,12 +197,31 @@ void Ribbon::removeButton(const QString &tabName, const QString &groupName, QToo
   }
 }
 
-const QFont& Ribbon::font() const noexcept
+RibbonButtonGroup* RibbonWidget::lastGroup(const QString& tabName) noexcept
+{
+    // Find ribbon tab
+    QWidget* tab = nullptr;
+    for (int i = 0; i < count(); i++)
+    {
+        if (tabText(i).toLower() == tabName.toLower())
+        {
+            tab = QTabWidget::widget(i);
+            break;
+        }
+    }
+    if (tab != nullptr) {
+        // Tab found, add ribbon group
+        auto _Context = static_cast<RibbonTabContent*>(tab);
+        return _Context->lastGroup();
+    }
+}
+
+const QFont& RibbonWidget::font() const noexcept
 {
     return _Myfont;
 }
 
-QFont& Ribbon::font() noexcept
+QFont& RibbonWidget::font() noexcept
 {
     return _Myfont;
 }
