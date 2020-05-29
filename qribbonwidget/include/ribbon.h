@@ -23,7 +23,7 @@ QString::fromUtf8("Segoe UI")
 
 public:
 
-    explicit RibbonWidget(QWidget* parent = 0);
+    explicit RibbonWidget(QWidget* parent = nullptr);
 
     /// Add a tab to the ribbon.
     ///

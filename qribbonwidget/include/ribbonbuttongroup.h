@@ -15,12 +15,11 @@
 #include <QToolButton>
 #include "forward.hpp"
 
-class QFrame;
 class RibbonButtonGroup : public QWidget
 {
     Q_OBJECT;
 public:
-    explicit RibbonButtonGroup(QWidget* parent = 0);
+    explicit RibbonButtonGroup(QWidget* parent = nullptr);
     virtual ~RibbonButtonGroup() noexcept;
 
     /// Set the title of the button group.

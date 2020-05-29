@@ -20,7 +20,7 @@ class RibbonTabContent : public QWidget
     Q_OBJECT
 
 public:
-    explicit RibbonTabContent(QWidget* parent = 0);
+    explicit RibbonTabContent(QWidget* parent = nullptr);
     virtual ~RibbonTabContent();
 
     /// Add a group to the tab content.
