@@ -10,6 +10,11 @@
     <height>300</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Qt-Ribbon-Widget</string>
   </property>
@@ -100,7 +105,7 @@
   <customwidget>
    <class>Ribbon</class>
    <extends>QTabWidget</extends>
-   <header>ribbon.h</header>
+   <header location="global">ribbon.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
