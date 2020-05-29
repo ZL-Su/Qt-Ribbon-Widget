@@ -35,3 +35,4 @@ release/qrc_resource.cpp
 /ui_mainwindow.h
 /ui_ribbonbuttongroup.h
 /ui_ribbontabcontent.h
+/.vs/QRibbonWidget/v16/ipch/AutoPCH
