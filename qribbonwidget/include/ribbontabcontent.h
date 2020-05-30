@@ -17,11 +17,17 @@
 
 class RibbonTabContent : public QWidget
 {
-    Q_OBJECT
-
+    Q_OBJECT;
+    using _Myt = RibbonTabContent;
 public:
     explicit RibbonTabContent(QWidget* parent = nullptr);
     virtual ~RibbonTabContent();
+
+    /**
+     *\brief Get and set the index of the tab page.
+     */
+    const int& index() const noexcept;
+    int& index() noexcept;
 
     /// Add a group to the tab content.
     ///
@@ -62,6 +68,7 @@ public:
     RibbonButtonGroup* lastGroup() noexcept;
 private:
     Ui::RibbonTabContent* ui;
+    int _Myidx = 0;
 };
 
 #endif // RIBBONTABCONTENT_H

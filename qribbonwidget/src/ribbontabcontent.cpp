@@ -117,3 +117,13 @@ RibbonButtonGroup* RibbonTabContent::lastGroup() noexcept
 {
     return getGroup(groupCount() - 1);
 }
+
+const int& RibbonTabContent::index() const noexcept
+{
+    return (_Myidx);
+}
+
+int& RibbonTabContent::index() noexcept
+{
+    return (_Myidx);
+}
