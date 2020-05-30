@@ -20,10 +20,17 @@ class RibbonWidget : public QTabWidget
     Q_OBJECT;
 #define DEFAULT_QTUI_FONT \
 QString::fromUtf8("Segoe UI")
-
+    using _Myt = RibbonWidget;
 public:
+    using TabPage = RibbonTabContent;
+    using ButtonGroup = RibbonButtonGroup;
 
     explicit RibbonWidget(QWidget* parent = nullptr);
+
+    /**
+     *\brief Add a tab page to the ribbon widget.
+     */
+    _Myt& add_tabpage(const QString& name) noexcept;
 
     /// Add a tab to the ribbon.
     ///
@@ -68,11 +75,23 @@ public:
 
     RibbonButtonGroup* lastGroup(const QString& tabName) noexcept;
 
+    /**
+     *\brief Set icon to the latest tab page.
+     */
+    _Myt& icon(const QString& iconname) noexcept;
+
+    /**
+     *\brief Set font to the tab widget.
+     */
+    _Myt& font(const QString& fontname) noexcept;
+    /**
+     *\brief Get font of the tab widget.
+     */
     const QFont& font() const noexcept;
-    QFont& font() noexcept;
 
 private:
-    QFont _Myfont;
+    // pointer to the latest tab page instance.
+    TabPage* _Mycurtab = nullptr;
 };
 
 #endif // RIBBONTABWIDGET_H

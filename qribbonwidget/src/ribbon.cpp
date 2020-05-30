@@ -21,8 +21,7 @@ RibbonWidget::RibbonWidget(QWidget* parent)
     QColor bg = qApp->palette().color(QPalette::Background);
     QColor mid = qApp->palette().color(QPalette::Mid);
 
-    _Myfont.setFamily(QString::fromUtf8("Segoe UI"));
-    this->setFont(_Myfont);
+    this->setFont(QFont(DEFAULT_QTUI_FONT));
 
     // Note: the order in which the background/palette/stylesheet functions are
     // called does matter. Should be same as in Qt designer.
@@ -76,22 +75,28 @@ RibbonWidget::RibbonWidget(QWidget* parent)
     setPalette(pal);
 }
 
+RibbonWidget& RibbonWidget::add_tabpage(const QString& name) noexcept
+{
+    QFont font(DEFAULT_QTUI_FONT);
+    _Mycurtab = new TabPage;
+    _Mycurtab->index() = QTabWidget::addTab(_Mycurtab, name);
+    return *this;
+}
+
 void RibbonWidget::addTab(const QString& tabName, const QString& font)
 {
-    _Myfont.setFamily(font);
-    this->setFont(_Myfont);
+    this->setFont(QFont(font));
     // Note: superclass QTabWidget also has a function addTab()
-    auto ribbonTabContent = new RibbonTabContent;
-    QTabWidget::addTab(ribbonTabContent, tabName);
+    _Mycurtab = new RibbonTabContent;
+    _Mycurtab->index() = QTabWidget::addTab(_Mycurtab, tabName);
 }
 
 void RibbonWidget::addTab(const QIcon& tabIcon, const QString& tabName, const QString& font)
 {
-    _Myfont.setFamily(font);
-    this->setFont(_Myfont);
+    this->setFont(QFont(font));
     // Note: superclass QTabWidget also has a function addTab()
-    auto ribbonTabContent = new RibbonTabContent;
-    QTabWidget::addTab(ribbonTabContent, tabIcon, tabName);
+    _Mycurtab = new RibbonTabContent;
+    _Mycurtab->index() = QTabWidget::addTab(_Mycurtab, tabIcon, tabName);
 }
 
 void RibbonWidget::removeTab(const QString &tabName)
@@ -214,14 +219,25 @@ RibbonButtonGroup* RibbonWidget::lastGroup(const QString& tabName) noexcept
         auto _Context = static_cast<RibbonTabContent*>(tab);
         return _Context->lastGroup();
     }
+    else {
+        return nullptr;
+    }
+}
+
+RibbonWidget& RibbonWidget::font(const QString& fontname) noexcept
+{
+    QFont _Font(fontname);
+    QTabWidget::setFont(_Font);
+    return (*this);
 }
 
 const QFont& RibbonWidget::font() const noexcept
 {
-    return _Myfont;
+    return QTabWidget::font();
 }
 
-QFont& RibbonWidget::font() noexcept
+RibbonWidget& RibbonWidget::icon(const QString& iconname) noexcept
 {
-    return _Myfont;
+    QTabWidget::setTabIcon(_Mycurtab->index(), QIcon(iconname));
+    return (*this);
 }
