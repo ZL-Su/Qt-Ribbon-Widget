@@ -10,7 +10,7 @@
 
 #include <QFrame>
 #include <QToolButton>
-#include "qribbonwidget/include/ribbonbuttongroup.h"
+#include "ribbon/include/ribbonbuttongroup.h"
 #include "ui_ribbonbuttongroup.h"
 
 RibbonButtonGroup::RibbonButtonGroup(QWidget *parent)
@@ -42,15 +42,16 @@ int RibbonButtonGroup::buttonCount() const noexcept
   return ui->horiz_layout->count();
 }
 
-void RibbonButtonGroup::addButton(QToolButton *button)
+QToolButton& RibbonButtonGroup::addButton(QToolButton *button)
 {
-  button->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-  button->setMinimumSize(48, 48);
-  button->setAutoRaise(true);
-  button->setIconSize(QSize(32,32));
-  button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+	button->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	button->setMinimumSize(48, 48);
+	button->setAutoRaise(true);
+	button->setIconSize(QSize(32, 32));
+	button->setToolButtonStyle(Qt::ToolButtonIconOnly);
+	ui->horiz_layout->addWidget(button);
 
-  ui->horiz_layout->addWidget(button);
+	return *button;
 }
 
 void RibbonButtonGroup::removeButton(QToolButton *button)
@@ -66,4 +67,10 @@ const QFrame* RibbonButtonGroup::separator() const noexcept
 QFrame* RibbonButtonGroup::separator() noexcept
 {
     return ui->vert_line;
+}
+
+void RibbonButtonGroup::hide_title(bool y) noexcept
+{
+	y ? ui->label->setFixedHeight(1) : 1;
+	y ? ui->label->hide() : ui->label->show();
 }

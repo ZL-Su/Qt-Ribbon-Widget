@@ -8,8 +8,8 @@
  *
  */
 
-#include "qribbonwidget/include/ribbontabcontent.h"
-#include "qribbonwidget/include/ribbonbuttongroup.h"
+#include "ribbon/include/ribbontabcontent.h"
+#include "ribbon/include/ribbonbuttongroup.h"
 #include "ui_ribbontabcontent.h"
 
 RibbonTabContent::RibbonTabContent(QWidget* parent)
@@ -23,12 +23,13 @@ RibbonTabContent::~RibbonTabContent()
     delete ui;
 }
 
-void RibbonTabContent::addGroup(const QString& groupName)
+RibbonButtonGroup* RibbonTabContent::addGroup(const QString& groupName)
 {
     auto _Button_group = new RibbonButtonGroup;
     _Button_group->setTitle(groupName);
-
     ui->horiz_layout->addWidget(_Button_group);
+	_Button_group->hide_title(groupName.isEmpty());
+	return _Button_group;
 }
 
 void RibbonTabContent::removeGroup(const QString& groupName)
@@ -116,4 +117,14 @@ RibbonButtonGroup* RibbonTabContent::getGroup(int idx) noexcept
 RibbonButtonGroup* RibbonTabContent::lastGroup() noexcept
 {
     return getGroup(groupCount() - 1);
+}
+
+const int& RibbonTabContent::index() const noexcept
+{
+    return (_Myidx);
+}
+
+int& RibbonTabContent::index() noexcept
+{
+    return (_Myidx);
 }

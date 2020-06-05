@@ -15,12 +15,11 @@
 #include <QToolButton>
 #include "forward.hpp"
 
-class QFrame;
 class RibbonButtonGroup : public QWidget
 {
     Q_OBJECT;
 public:
-    explicit RibbonButtonGroup(QWidget* parent = 0);
+    explicit RibbonButtonGroup(QWidget* parent = nullptr);
     virtual ~RibbonButtonGroup() noexcept;
 
     /// Set the title of the button group.
@@ -42,7 +41,7 @@ public:
     /// Add a button to the group.
     ///
     /// \param[in] button The button
-    void addButton(QToolButton* button);
+    QToolButton& addButton(QToolButton* button);
 
     /// Remove a button from the group.
     ///
@@ -54,6 +53,8 @@ public:
      */
     const QFrame* separator() const noexcept;
     QFrame* separator() noexcept;
+
+	void hide_title(bool y = false) noexcept;
 
 private:
     Ui::RibbonButtonGroup* ui;

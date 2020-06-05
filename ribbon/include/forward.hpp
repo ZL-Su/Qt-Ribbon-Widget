@@ -1,4 +1,6 @@
 #pragma once
+class QLabel;
+class QFrame;
 class RibbonButtonGroup;
 class RibbonTabContent;
 class RibbonWidget;
